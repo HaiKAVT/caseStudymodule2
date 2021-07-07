@@ -10,9 +10,9 @@ public class MenuQLNV {
 
         while (true){
             System.out.println("___________________________________________________________________");
-            System.out.println("1.Thêm nhân viên                            | 09.Tro lai dang nhap|");
-            System.out.println("2.Cập nhật nhân viên                        | 10.Exit             |");
-            System.out.println("3.EditForStatus                             ----------------------|");
+            System.out.println("1.Thêm nhân viên                    | 09.Tro lai dang nhap|"        );
+            System.out.println("2.Cập nhật nhân viên                | 10.Show tài khoản người dùng|");
+            System.out.println("3.EditForStatus                     |11. Thoát"                     );
             System.out.println("4.Find by Name                                                    |");
             System.out.println("5.Check for status                                                |");
             System.out.println("6.Remove nhan vien                                                |");
@@ -54,10 +54,16 @@ public class MenuQLNV {
                     nv.showNV();
                     break;
                 case 9:
-                    MenuLogin.start();
+                    QuanLyLogin.menu();
                     break;
                 case 10:
+                    nv.showUser();
+                    break;
+                case 11:
                     System.exit(0);
+                    break;
+                default:
+                    System.err.println("Nhập sai!!!!");
             }
         }
     }

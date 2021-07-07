@@ -335,4 +335,7 @@ public class ManagerNV {
             System.out.println(nv);
         }
     }
+    public void showUser(){
+        System.out.println(QuanLyLogin.getTemp());
+    }
 }

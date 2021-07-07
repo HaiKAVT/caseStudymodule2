@@ -10,7 +10,7 @@ public class MenuLogin {
     public static void start() throws IOException, ClassNotFoundException {
         File file = new File("login.txt");
         if (!file.exists()) {
-            ManagerLogin.logins.add(new Login("new", "new"));
+            ManagerLogin.users.add(new User("new", "new"));
             ManagerLogin.writeFileLogin();
         }
 
@@ -23,8 +23,8 @@ public class MenuLogin {
                 System.out.println("Nhập tên đăng nhập: ");
                 String nameUser = scanner.nextLine();
                 int check = -1;
-                for (int i = 0; i < ManagerLogin.logins.size(); i++) {
-                    if (ManagerLogin.logins.get(i).getUserName().equals(nameUser)) {
+                for (int i = 0; i < ManagerLogin.users.size(); i++) {
+                    if (ManagerLogin.users.get(i).getUserName().equals(nameUser)) {
                         check = 1;
                     }
                 }
@@ -33,8 +33,8 @@ public class MenuLogin {
                 } else {
                     System.out.println("Nhập mật khẩu:");
                     String passWord = scanner.nextLine();
-                    Login login = new Login(nameUser, passWord);
-                    ManagerLogin.logins.add(login);
+                    User user = new User(nameUser, passWord);
+                    ManagerLogin.users.add(user);
                     ManagerLogin.writeFileLogin();
                     nameFile1 = nameUser;
                     System.out.println("Welcom " + nameUser);
@@ -49,8 +49,8 @@ public class MenuLogin {
                     String nameUser = scanner.nextLine();
                     System.out.println("Nhập mật khẩu:");
                     String password = scanner.nextLine();
-                    for (int i = 0; i < ManagerLogin.logins.size(); i++) {
-                        if (ManagerLogin.logins.get(i).getUserName().equals(nameUser) && ManagerLogin.logins.get(i).getPassWord().equals(password)) {
+                    for (int i = 0; i < ManagerLogin.users.size(); i++) {
+                        if (ManagerLogin.users.get(i).getUserName().equals(nameUser) && ManagerLogin.users.get(i).getPassWord().equals(password)) {
                             System.out.println("Welcom " + nameUser);
                             nameFile1 = nameUser;
                             password1 = password;
