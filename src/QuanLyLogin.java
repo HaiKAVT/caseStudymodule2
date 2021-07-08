@@ -18,7 +18,6 @@ public class QuanLyLogin {
         switch (choose) {
             case 1:
                 login();
-                MenuQLNV.menuNV();
                 break;
             case 2:
                 signUp();
@@ -38,6 +37,7 @@ public class QuanLyLogin {
                 if (lg.getUserName().equalsIgnoreCase(userName) && lg.getPassWord().equals(password)) {
                     System.out.println("Welcom " + userName);
                     temp = lg;
+                    MenuQLNV.menuNV();
                     return;
                 }
             }
@@ -53,6 +53,7 @@ public class QuanLyLogin {
             String userName = scanner.nextLine();
             System.out.println("nhập mật khẩu: ");
             String password = scanner.nextLine();
+            ManagerLogin.readFileLogin();
             for (User lg : ManagerLogin.users) {
                 if (lg.getUserName().equals(userName)) {
                     System.err.println("tên này đã tồn tại!!!");
