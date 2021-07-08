@@ -4,11 +4,12 @@ import java.util.Scanner;
 
 public class ManagerNV {
     static Scanner scanner = new Scanner(System.in);
-    private  String nameFile;
-   static ArrayList<NhanVien> nhanViens = new ArrayList<>();
-   public   ManagerNV(String nameFile){
-       this.nameFile =nameFile;
-   }
+    private String nameFile;
+    static ArrayList<NhanVien> nhanViens = new ArrayList<>();
+
+    public ManagerNV(String nameFile) {
+        this.nameFile = nameFile;
+    }
 
     public static NhanVien create(String loaiNV) {
 
@@ -30,31 +31,35 @@ public class ManagerNV {
         }
     }
 
-    public  void addNV(String loaiNV) throws IOException, ClassNotFoundException {
+    public void addNV(String loaiNV) throws IOException, ClassNotFoundException {
         NhanVien nhanVien = create(loaiNV);
         nhanViens.add(nhanVien);
         save();
     }
 
-    public  void removeNV() throws IOException, ClassNotFoundException {
-        read();
-        System.out.println("Nhập id nhân viên cần xóa : ");
-        int id = scanner.nextInt();
-        int check = -1;
-        for (int i = 0; i < nhanViens.size(); i++) {
-            if (nhanViens.get(i).getId() == id) {
-                check = i;
+    public void removeNV(){
+        try {
+            read();
+            System.out.println("Nhập id nhân viên cần xóa : ");
+            int id = Integer.parseInt(scanner.nextLine());
+            int check = -1;
+            for (int i = 0; i < nhanViens.size(); i++) {
+                if (nhanViens.get(i).getId() == id) {
+                    check = i;
+                }
             }
+            if (check < 0) {
+                System.out.println("id vừa nhập ko tồn tại!!!");
+            } else {
+                nhanViens.remove(check);
+            }
+            save();
+        }catch (Exception e){
+            System.out.println("id phải là số!!!");
         }
-        if (check < 0) {
-            System.out.println("id vừa nhập ko tồn tại!!!");
-        } else {
-            nhanViens.remove(check);
-        }
-        save();
     }
 
-    public  void findByName() throws IOException, ClassNotFoundException {
+    public void findByName() throws IOException, ClassNotFoundException {
         read();
         System.out.println("Nhập tên nhân viên cần tìm : ");
         String name = scanner.nextLine();
@@ -71,7 +76,7 @@ public class ManagerNV {
         }
     }
 
-    public  void showByStatus() throws IOException, ClassNotFoundException {
+    public void showByStatus() throws IOException, ClassNotFoundException {
         read();
         System.out.println("1.Danh sách nhân viên đang làm việc");
         System.out.println("2.Danh sách nhân viên đã nghỉ việc");
@@ -91,7 +96,7 @@ public class ManagerNV {
         }
     }
 
-    public  void checkStatus() throws IOException, ClassNotFoundException {
+    public void checkStatus() throws IOException, ClassNotFoundException {
         read();
         System.out.println("Nhập tên nhân viên cần kiểm tra trạng thái: ");
         String name = scanner.nextLine();
@@ -132,7 +137,7 @@ public class ManagerNV {
         save();
     }
 
-    public  void showByTypeNV() throws IOException, ClassNotFoundException {
+    public void showByTypeNV() throws IOException, ClassNotFoundException {
         read();
         System.out.println("1. Danh sách nhân viên fullTime");
         System.out.println("2. Danh sách nhân viên partTime");
@@ -153,7 +158,7 @@ public class ManagerNV {
         }
     }
 
-    public  void editByName() throws IOException, ClassNotFoundException {
+    public void editByName() throws IOException, ClassNotFoundException {
         read();
         System.out.println("Nhập tên nhân viên cần cập nhật: ");
         String nameEd = scanner.nextLine();
@@ -193,29 +198,23 @@ public class ManagerNV {
         save();
     }
 
-    public  void save(){
-       try {
-           FileOutputStream fos = new FileOutputStream(nameFile);
-           ObjectOutputStream oos = new ObjectOutputStream(fos);
-           oos.writeObject(nhanViens);
+    public void save() throws IOException {
 
-       } catch (Exception e){
-           System.out.println("lỗi");
-       }
-       ;
-    }
-    public  void read()  {
-       try {
-           FileInputStream fis = new FileInputStream(nameFile);
-           ObjectInputStream ois = new ObjectInputStream(fis);
-           nhanViens = (ArrayList<NhanVien>) ois.readObject();
-       }
-      catch (Exception e){
-          System.out.println("lỗi");
-      }
+        FileOutputStream fos = new FileOutputStream(nameFile);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(nhanViens);
+
+
     }
 
-    private  static int getID() {
+    public void read() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(nameFile);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        nhanViens = (ArrayList<NhanVien>) ois.readObject();
+
+    }
+
+    private static int getID() {
         while (true) {
             try {
                 System.out.println("Nhập id");
@@ -282,7 +281,7 @@ public class ManagerNV {
                 System.out.println("Nhập email");
                 String email = scanner.nextLine();
                 for (NhanVien nv : nhanViens) {
-                    if (nv.getEmail().equals(email)) {
+                    if (nv.getEmail().equals(email) && email == "") {
                         throw new Exception();
                     }
                 }
@@ -294,6 +293,7 @@ public class ManagerNV {
     }
 
     private static String getAddress() {
+
         System.out.println("Nhập địa chỉ : ");
         return scanner.nextLine();
     }
@@ -330,12 +330,14 @@ public class ManagerNV {
 
     }
 
-    public  void showNV() {
+    public void showNV() throws IOException, ClassNotFoundException {
+        read();
         for (NhanVien nv : nhanViens) {
             System.out.println(nv);
         }
     }
-    public void showUser(){
+
+    public void showUser() {
         System.out.println(QuanLyLogin.getTemp());
     }
 }

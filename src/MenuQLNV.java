@@ -2,11 +2,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class MenuQLNV {
-    static String nameFile1;
      static Scanner scanner = new Scanner(System.in);
     public static   void menuNV() throws IOException, ClassNotFoundException {
-        nameFile1=MenuLogin.nameFile1;
-        ManagerNV nv = new ManagerNV(nameFile1);
+        ManagerNV nv = new ManagerNV("src/file.txt");
 
         while (true){
             System.out.println("___________________________________________________________________");
