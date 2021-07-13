@@ -6,13 +6,13 @@ public class ManagerLogin {
 
 
     public static  void writeFileLogin() throws IOException {
-        FileOutputStream fos = new FileOutputStream("login.txt");
+        FileOutputStream fos = new FileOutputStream("src/login.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(users);
     }
 
     public static void readFileLogin() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream("login.txt");
+        FileInputStream fis = new FileInputStream("src/login.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
         users = (ArrayList<User>) ois.readObject();
     }

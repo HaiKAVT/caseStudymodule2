@@ -26,7 +26,7 @@ public class NhanVienpartTime extends  NhanVien{
 
     @Override
     public String toString() {
-        return "nhân viên partTime {" + super.toString() + " giờ làm việc : " + hourWork +"h,"
-                + " doanh thu " + getTotalSalary() + "}";
+        return "nhân viên partTime : " + super.toString() + ", giờ làm việc : " + hourWork +"h,"
+                + " doanh thu: " + getTotalSalary() + "";
     }
 }

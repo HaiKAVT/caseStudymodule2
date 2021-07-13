@@ -14,6 +14,6 @@ public class NhanVienFullTime  extends NhanVien{
 
     @Override
     public String toString() {
-        return "nhân viên fulltime {" +  super.toString() +" ,doanh thu " +  getTotalSalary() +"}";
+        return "nhân viên fulltime : " +  super.toString() +" ,doanh thu: " +  getTotalSalary() +"";
     }
 }

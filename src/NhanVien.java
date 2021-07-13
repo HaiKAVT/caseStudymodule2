@@ -118,15 +118,15 @@ public String getStatus(){
 
     @Override
     public String toString() {
-        return "NhanVien{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", gender='" + gender + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", salary=" + salary +
-                ", status=" + getStatus() ;
+        return "" +
+                "id: " + id +
+                ", name:'" + name + '\'' +
+                ", age=" + age + "\n"+
+                "gender:'" + gender + '\'' +
+                ", phone:'" + phone + '\'' +
+                ", email:'" + email + '\'' +
+                ", address:'" + address + '\'' +
+                ", salary:" + salary +
+                ", status:" + getStatus()  ;
     }
 }

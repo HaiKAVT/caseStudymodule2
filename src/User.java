@@ -1,8 +1,23 @@
+import com.sun.xml.internal.ws.developer.Serialization;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
     private String userName;
     private String passWord;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
+    @Serialization
+    public static final long serialVersionUID = 1L;
 
     public User() {
     }

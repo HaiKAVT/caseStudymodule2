@@ -32,12 +32,14 @@ public class ManagerNV {
     }
 
     public void addNV(String loaiNV) throws IOException, ClassNotFoundException {
+        read();
         NhanVien nhanVien = create(loaiNV);
         nhanViens.add(nhanVien);
+        System.out.println("Thêm nhân viên thành công!!!");
         save();
     }
 
-    public void removeNV(){
+    public void removeNV() {
         try {
             read();
             System.out.println("Nhập id nhân viên cần xóa : ");
@@ -52,9 +54,10 @@ public class ManagerNV {
                 System.out.println("id vừa nhập ko tồn tại!!!");
             } else {
                 nhanViens.remove(check);
+                System.out.println("Xóa thành công!");
             }
             save();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("id phải là số!!!");
         }
     }
@@ -65,14 +68,13 @@ public class ManagerNV {
         String name = scanner.nextLine();
         int check = -1;
         for (int i = 0; i < nhanViens.size(); i++) {
-            if (nhanViens.get(i).getName().equals(name)) {
+            if (nhanViens.get(i).getName().contains(name)) {
                 check = i;
+                System.out.println(nhanViens.get(i));
             }
         }
         if (check < 0) {
             System.out.println(" Tên Không có trong danh sách");
-        } else {
-            System.out.println(nhanViens.get(check));
         }
     }
 
@@ -204,13 +206,18 @@ public class ManagerNV {
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(nhanViens);
 
-
     }
 
-    public void read() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(nameFile);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        nhanViens = (ArrayList<NhanVien>) ois.readObject();
+    public void read()  {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(nameFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            nhanViens = (ArrayList<NhanVien>) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -226,7 +233,7 @@ public class ManagerNV {
                 }
                 return id;
             } catch (Exception e) {
-                System.out.println("id đã tồn tại!!!");
+                System.err.println("id đã tồn tại!!!");
             }
         }
     }
@@ -250,7 +257,7 @@ public class ManagerNV {
                 int age = Integer.parseInt(scanner.nextLine());
                 return age;
             } catch (Exception e) {
-                System.out.println("Lỗi");
+                System.err.println("Tuổi phải là số");
             }
         }
 
@@ -265,38 +272,69 @@ public class ManagerNV {
                     return gender;
                 }
             } catch (Exception e) {
-                System.out.println("giới tính phải là nam / nu !!! mời nhập lại");
+                System.err.println("giới tính phải là nam / nu !!! mời nhập lại");
             }
         }
     }
 
     private static String getPhone() {
-        System.out.println("Nhập số điện thoại");
-        return scanner.nextLine();
+        while (true) {
+            try {
+                System.out.println("Nhập số điện thoại");
+                String phone = scanner.nextLine();
+                if(phone.equals("")){
+                    throw new Exception();
+                }
+                else  return phone;
+            }catch (Exception ex){
+                System.err.println("không đc để trống số điện thoại");
+            }
+        }
     }
 
-    private static String getEmail() {
+    public static String getEmail() {
         while (true) {
             try {
                 System.out.println("Nhập email");
                 String email = scanner.nextLine();
+                int check = -1;
                 for (NhanVien nv : nhanViens) {
-                    if (nv.getEmail().equals(email) && email == "") {
-                        throw new Exception();
+                    if (nv.getEmail().equals(email)) {
+                        check = 1;
+                        System.err.println("Email này đã tồn tại!! Mời nhâp lại");
                     }
                 }
-                return email;
+//                if(email.contains(" ")&&!email.contains("@")){check=1;}
+//                if(check>0){
+//                    throw new Exception();
+//                }
+                if (!email.contains("@") || email.contains(" ") || email.equals("")) {
+                    check = 1;
+                    System.err.println("email phải có ít nhất 1 ký tự và có @ ");
+                }
+                if (check < 0) {
+                    return email;
+                }
+
             } catch (Exception e) {
-                System.out.println("Email này đã tồn tại!! Mời nhâp lại");
+                System.err.println("Email này đã tồn tại!! Mời nhâp lại");
             }
         }
     }
 
     private static String getAddress() {
-
-        System.out.println("Nhập địa chỉ : ");
-        return scanner.nextLine();
-    }
+        while (true) {
+            try{
+            System.out.println("Nhập địa chỉ : ");
+           String address =  scanner.nextLine();
+           if(address.equals("")){
+               throw new Exception();
+           }
+           return address;
+        }catch (Exception ex){
+                System.err.println("không đc để trống địa chỉ");
+            }
+    }}
 
     private static float getSalary() {
         while (true) {
@@ -304,7 +342,7 @@ public class ManagerNV {
                 System.out.println("Nhập lương : ");
                 return Float.parseFloat(scanner.nextLine());
             } catch (Exception e) {
-                System.out.println("Nhập sai định dạng, lương phải là một số");
+                System.err.println("Nhập sai định dạng, lương phải là một số");
             }
         }
     }
@@ -312,7 +350,7 @@ public class ManagerNV {
     private static boolean isStatus() {
         while (true) {
             try {
-                System.out.println(" Nhập trạng thái(true / false) ");
+                System.out.println(" Nhập trạng thái(true(đang làm việc) / false(nghỉ việc)) ");
                 boolean status = false;
                 String status1 = scanner.nextLine();
                 if (status1.equals("true")) {
@@ -324,7 +362,7 @@ public class ManagerNV {
                 }
                 return status;
             } catch (Exception e) {
-                System.out.println("sai rồi!! nhập lại true / false");
+                System.err.println("sai rồi!! nhập lại true(đang làm việc) / false(nghỉ việc)");
             }
         }
 
@@ -334,6 +372,7 @@ public class ManagerNV {
         read();
         for (NhanVien nv : nhanViens) {
             System.out.println(nv);
+            System.out.println();
         }
     }
 
